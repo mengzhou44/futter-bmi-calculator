@@ -9,3 +9,5 @@ const Color kInactiveCardColor = Color(0xff111328);
 const kLabelTextStyle = TextStyle(color: Color(0xff8d8e98), fontSize: 18);
 const kNumberTextStyle = TextStyle(
     color: Color(0xffffffff), fontSize: 50, fontWeight: FontWeight.w900);
+const kBigLabelTextStyle = TextStyle(color: Color(0xff8d8e98), fontSize: 30);
+const kBigTextStyle = TextStyle(fontSize: 30);

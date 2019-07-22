@@ -3,6 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'constants.dart';
 import 'icon-content.dart';
 import 'reusable-card.dart';
+import 'value-card.dart';
+import 'bottom-button.dart';
+import 'results-page.dart';
 
 enum Gender { Male, Female, Unknown }
 
@@ -14,6 +17,8 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender selectedGender = Gender.Unknown;
   int height = 180;
+  int age = 35;
+  int weight = 60;
 
   Color getCardColor(Gender gender) {
     return gender == selectedGender ? kActiveCardColor : kInactiveCardColor;
@@ -68,28 +73,54 @@ class _InputPageState extends State<InputPage> {
                               Text(height.toString(), style: kNumberTextStyle),
                               Text("cm", style: kLabelTextStyle),
                             ]),
-                        Slider(
-                            value: height.toDouble(),
-                            min: 120,
-                            max: 220,
-                            activeColor: Color(0xffeb1555),
-                            inactiveColor: Color(0xff8d8e98),
-                            onChanged: (value) {
-                              setState(() {
-                                height = value.round();
-                              });
-                            })
+                        SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            activeTrackColor: Color(0xffeb1555),
+                            inactiveTrackColor: Color(0xff8d8e98),
+                            thumbColor: Color(0xffEE1B55),
+                            overlayColor: Color(0x29EB1555),
+                            thumbShape:
+                                RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                            overlayShape:
+                                RoundSliderOverlayShape(overlayRadius: 30.0),
+                          ),
+                          child: Slider(
+                              value: height.toDouble(),
+                              min: 120,
+                              max: 220,
+                              onChanged: (value) {
+                                setState(() {
+                                  height = value.round();
+                                });
+                              }),
+                        ),
                       ]))),
           Expanded(
               child: Row(children: <Widget>[
-            Expanded(child: ReusableCard(color: kActiveCardColor)),
+            Expanded(
+                child: ValueCard(
+              weight: weight,
+              onIncrease: () {
+                setState(() {
+                  weight++;
+                });
+              },
+              onDecrease: () {
+                setState(() {
+                  weight--;
+                });
+              },
+            )),
             Expanded(child: ReusableCard(color: kActiveCardColor)),
           ])),
-          Container(
-              margin: EdgeInsets.only(top: 10),
-              width: double.infinity,
-              color: kBottomContainerColor,
-              height: kBottomContainerHeight)
+          BottomButton(
+            buttonText: 'Calculate',
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ResultsPage();
+              }));
+            },
+          )
         ]));
   }
 }
